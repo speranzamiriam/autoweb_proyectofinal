@@ -7,7 +7,7 @@ import io.cucumber.java.en.When;
 import net.thucydides.core.annotations.Steps;
 import pageobject.*;
 
-public class OpenCartStepsDefinitions {
+public class HealthcareServiceStepsDefinitions {
 
     @Steps
     Home home;
@@ -38,5 +38,5 @@ public class OpenCartStepsDefinitions {
         makeAppointment.validarRegistroInformacion(facility,apply,healthcareProgram,visitDate,comment);
     }
 
-   
+
 }
