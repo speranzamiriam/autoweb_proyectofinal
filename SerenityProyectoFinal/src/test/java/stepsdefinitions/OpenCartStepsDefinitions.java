@@ -5,54 +5,38 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.thucydides.core.annotations.Steps;
-import pageobject.CarritoCompras;
-import pageobject.Checkout;
-import pageobject.Home;
+import pageobject.*;
 
 public class OpenCartStepsDefinitions {
 
     @Steps
     Home home;
-
     @Steps
-    Checkout checkout;
-
+    Profile profile;
     @Steps
-    CarritoCompras cart;
+    MakeAppointment makeAppointment;
+
+
 
     @Given("que como usuario ingresa a la web")
     public void queComoUsuarioIngresaALaWeb() {
         home.open();
     }
+    @And("^ingreso a la web como invitado con el usuario (.*) y password (.*)$")
+    public void andIngresaComoInvitado(String user,String pass) {
+        home.ingresarALogin();
+        profile.ingresarLoginDeInvitado(user,pass);
 
-    @When("^busco el producto (.*) y agrego al carrito$")
-    public void buscoElProductoProductYAgregoAlCarrito(String product) {
-        home.searchProduct(product);
-        home.addToCartProduct();
     }
 
-    @And("^me dirijo a realizar la compra como (.*)$")
-    public void meDirijoARealizarLaCompraComoOptionCustomer(String optionCustomers) {
-        cart.goToCheckout(optionCustomers);
+    @When("^registro los datos de Facility (.*),(.*),(.*),(.*) y (.*)$")
+    public void registrarDatosCentroDeAtencion(String facility,String apply,String healthcareProgram, String visitDate ,String comment) {
+        makeAppointment.registrarInformacion(facility,apply,healthcareProgram,visitDate,comment);
+    }
+    @Then("^verifico que se muestre la informacion (.*),(.*),(.*),(.*) y (.*)$")
+    public void verificoDatosCentroDeAtencion(String facility,String apply,String healthcareProgram, String visitDate ,String comment) {
+        makeAppointment.validarRegistroInformacion(facility,apply,healthcareProgram,visitDate,comment);
     }
 
-    @And("^ingreso mis datos (.*), (.*), (.*), (.*) y envio de productos (.*), (.*), (.*), (.*)")
-    public void ingresoMisDatosNameLastNameEmailPhoneYEnvioDeProductosAddressCityCountryState(String name, String lastName, String email, String phone, String address, String city, String country, String state) {
-        checkout.billingDetails(name, lastName, email, phone, address, city, country, state);
-    }
-
-    @And("^ingreso un metodo de delivery (.*)$")
-    public void ingresoUnMetodoDeDeliveryDescription(String description) {
-        checkout.deliveryMethod(description);
-    }
-
-    @And("^selecciono el metodo de pago (.*)$")
-    public void seleccionoElMetodoDePagoMethodPay(String methodPay) {
-        checkout.paymentMethod(methodPay);
-    }
-
-    @Then("^verifico y confirmo la orden de compra$")
-    public void verificoYConfirmoLaOrdenDeCompra() {
-        checkout.validateOrder();
-    }
+   
 }
